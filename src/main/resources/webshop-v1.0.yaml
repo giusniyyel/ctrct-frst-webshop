@@ -1,0 +1,263 @@
+openapi: 3.0.3
+info:
+  title: Contract First Webshop - OpenAPI 3.0
+  description: The objective of this exercise is to build a RESTful web service using Spring Web and Spring Data, and a contract first approach, using Gradle as the build tool. Additionally, to use entities from the PostgreSQL Sample Database
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: hi@giusniyyel.dev
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://localhost:8080/api/v1
+tags:
+  - name: Customer
+    description: Operations for managing customer information and profiles.
+  - name: Address
+    description: Operations for handling customer addresses and locations.
+#  - name: Order
+#    description: Operations for creating, updating, and tracking customer orders.
+#  - name: Labels
+#    description: Operations for managing product labels and categorization.
+#  - name: Products
+#    description: Operations for browsing, searching, and managing the product catalog.
+#  - name: Colors
+#    description: Operations for managing product color variations.
+#  - name: Sizes
+#    description: Operations for managing product size options.
+#  - name: Articles
+#    description: Operations for creating and managing informational articles.
+#  - name: Stock
+#    description: Operations for tracking and managing product stock levels.
+#  - name: Order Positions
+#    description: Operations for managing individual order items within orders.
+paths:
+  /addresses:
+    get:
+      summary: Get a list of addresses
+      operationId: getAllAddress
+      tags:
+        - Address
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+    post:
+      summary: Create a new address
+      operationId: createAddress
+      tags:
+        - Address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '201':
+          description: Address created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+    put:
+      summary: Update an existing address
+      operationId: updateAddress
+      tags:
+        - Address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '200':
+          description: Address updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+  /addresses/{id}:
+    get:
+      summary: Get an address by ID
+      operationId: getAddressById
+      tags:
+        - Address
+      parameters:
+        - name: id
+          in: path
+          description: ID of the address to retrieve
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+  /customers:
+    get:
+      summary: Get a list of customers
+      operationId: getAllCustomers
+      tags:
+        - Customer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      summary: Create a new customer
+      operationId: createCustomer
+      tags:
+        - Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Address created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    put:
+      summary: Update a customer
+      operationId: updateCustomer
+      tags:
+        - Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /customers/{id}:
+    get:
+      summary: Get a customer by ID
+      operationId: getCustomerById
+      tags:
+        - Customer
+      parameters:
+        - name: id
+          in: path
+          description: ID of the customer to retrieve
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        customerId:
+          type: integer
+          format: int32
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        updated:
+          type: string
+          format: date-time
+          nullable: true
+        address1:
+          type: string
+          nullable: true
+        address2:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        zip:
+          type: string
+          nullable: true
+        firstname:
+          type: string
+          nullable: true
+        lastname:
+          type: string
+          nullable: true
+      required:
+        - id
+        - customerId
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        currentAddressId:
+          type: integer
+          format: int32
+          nullable: true
+        created:
+          type: string
+          format: date-time
+          nullable: true
+        updated:
+          type: string
+          format: date-time
+          nullable: true
+        gender:
+          type: string
+          nullable: true
+          enum:
+            - male
+            - female
+            - other
+        dateOfBirth:
+          type: string
+          format: date
+          nullable: true
+          description: Date of birth of the customer
+        firstname:
+          type: string
+          nullable: true
+        lastname:
+          type: string
+          nullable: true
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Email address of the customer
