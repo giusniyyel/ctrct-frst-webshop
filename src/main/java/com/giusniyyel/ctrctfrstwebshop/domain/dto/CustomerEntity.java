@@ -2,10 +2,12 @@ package com.giusniyyel.ctrctfrstwebshop.domain.dto;
 
 import com.giusniyyel.ctrctfrstwebshop.domain.enums.Gender;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "customer")
@@ -29,12 +31,12 @@ public class CustomerEntity {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "dateofbirth")
-    private LocalDateTime dateOfBirth;
+    private Date dateOfBirth;
 
     @Column(name = "currentaddressid")
     private Integer currentAddressId;
 
-    private LocalDateTime created;
+    private Date created;
 
-    private LocalDateTime updated;
+    private Date updated;
 }
