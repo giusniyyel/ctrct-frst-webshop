@@ -61,6 +61,7 @@ openApiGenerate {
             useResponseEntity: 'false',
             interfaceOnly    : 'true',
             useSpringBoot3   : 'true',
+            ignoreAnyOfInEnum: 'true',
             openApiNullable  : 'false'
     ])
 }

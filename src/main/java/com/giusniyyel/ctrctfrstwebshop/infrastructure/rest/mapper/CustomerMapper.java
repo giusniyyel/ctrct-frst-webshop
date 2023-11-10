@@ -8,8 +8,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 @Mapper(componentModel = "spring")
@@ -36,6 +38,9 @@ public interface CustomerMapper {
     default OffsetDateTime mapDateToOffsetDateTime(Date date) {
         if (date == null) {
             return null;
+        }
+        if (date instanceof Timestamp) {
+            return date.toInstant().atOffset(ZoneOffset.UTC);
         }
         return date.toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime();
     }

@@ -2,7 +2,6 @@ package com.giusniyyel.ctrctfrstwebshop.domain.dto;
 
 import com.giusniyyel.ctrctfrstwebshop.domain.enums.Gender;
 import jakarta.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "customer", schema = "webshop")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -24,12 +23,10 @@ public class CustomerEntity {
 
     private String lastname;
 
-    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private String email;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "dateofbirth")
     private Date dateOfBirth;
 
