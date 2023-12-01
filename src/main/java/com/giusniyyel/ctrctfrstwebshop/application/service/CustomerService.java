@@ -2,11 +2,12 @@ package com.giusniyyel.ctrctfrstwebshop.application.service;
 
 
 import com.giusniyyel.ctrctfrstwebshop.domain.port.CustomerRepository;
+import com.giusniyyel.ctrctfrstwebshop.infrastructure.exceptions.CustomerPersistenceException;
+import com.giusniyyel.ctrctfrstwebshop.infrastructure.exceptions.ResourceNotFoundException;
 import com.giusniyyel.openapi.models.Customer;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -17,14 +18,14 @@ public class CustomerService {
     }
 
     public Iterable<Customer> getAll() {
-        return customerRepository.getAll();
+        return customerRepository.getAllCustomers();
     }
 
-    public Optional<Customer> getCustomerById(Integer id) {
+    public Customer getCustomerById(Integer id) throws ResourceNotFoundException {
         return customerRepository.getCustomerById(id);
     }
 
-    public Customer save(Customer customer) {
+    public Customer save(Customer customer) throws CustomerPersistenceException {
         if (customer.getId() != null) {
             customer.setUpdated(OffsetDateTime.now());
         } else {

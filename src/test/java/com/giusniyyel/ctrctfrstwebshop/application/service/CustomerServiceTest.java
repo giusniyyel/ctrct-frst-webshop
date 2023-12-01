@@ -10,11 +10,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +28,7 @@ class CustomerServiceTest {
 
     @Test
     void getAllCustomersAndValidAllAreReturned() {
-        when(customerRepository.getAll()).thenReturn(Arrays.asList(
+        when(customerRepository.getAllCustomers()).thenReturn(Arrays.asList(
                 createCustomer(1, null, Customer.GenderEnum.MALE, LocalDate.now(), "Daniel", "Campos", "john@example.com"),
                 createCustomer(2, null, Customer.GenderEnum.FEMALE, LocalDate.now(), "Linda", "May", "lin@example.com")
         ));
@@ -42,24 +41,20 @@ class CustomerServiceTest {
     @Test
     void getCustomerByIdAndValidateThatCustomerExists() {
         when(customerRepository.getCustomerById(1)).thenReturn(
-                Optional.of(createCustomer(1, null, Customer.GenderEnum.MALE, LocalDate.now(), "Daniel", "Campos", "john@example.com"))
+                createCustomer(1, null, Customer.GenderEnum.MALE, LocalDate.now(), "Daniel", "Campos", "john@example.com")
         );
 
-        Optional<Customer> result = customerService.getCustomerById(1);
+        Customer result = customerService.getCustomerById(1);
 
-        assertTrue(result.isPresent());
-        assertEquals(1, result.get().getId());
+        assertEquals(1, result.getId());
     }
 
     @Test
-    void getCustomerByIdAndValidCustomerDoesNotExists() {
-        when(customerRepository.getCustomerById(1)).thenReturn(
-                Optional.empty()
-        );
+    void getCustomerByIdAndValidCustomerDoesNotExists() throws ResourceNotFoundException {
+        when(customerRepository.getCustomerById(1)).thenThrow(ResourceNotFoundException.class);
 
-        Optional<Customer> result = customerService.getCustomerById(1);
-
-        assertTrue(result.isEmpty());
+        assertThrows(ResourceNotFoundException.class, () -> customerService.getCustomerById(1));
+        verify(customerRepository, times(1)).getCustomerById(1);
     }
 
     @Test
